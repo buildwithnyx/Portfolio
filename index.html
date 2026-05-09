@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nyx Kuro — Cyberpunk Creative Developer & AI Automation Engineer">
+    <title>Nyx Kuro | Digital Alchemist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #111111;
+            --accent: #00f5ff;
+            --accent2: #ff00aa;
+            --text-light: #f0f0f0;
+            --text-muted: #aaaaaa;
+            --glass: rgba(20, 20, 30, 0.65);
+            --glass-border: rgba(0, 245, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Animated Grid Background */
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: 
+                linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: -2;
+            animation: gridMove 40s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 60px 60px; }
+        }
+
+        /* Neon Glow */
+        .neon-text {
+            text-shadow: 
+                0 0 10px var(--accent),
+                0 0 20px var(--accent),
+                0 0 40px var(--accent2);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.8rem;
+            background: none;
+            border: none;
+            color: white;
+        }
+
+        /* HERO */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 30%, rgba(0, 245, 255, 0.12), transparent 60%),
+                        linear-gradient(180deg, #0a0a0a 0%, #1a0033 100%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 2rem;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            font-weight: 700;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.35rem;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            color: var(--text-muted);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--accent), #00b8ff);
+            color: #000;
+            padding: 1.1rem 2.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 245, 255, 0.4);
+        }
+
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Projects & Services */
+        .projects-grid, .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card, .service-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            backdrop-filter: blur(12px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 40%;
+            height: 40%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2), transparent);
+            opacity: 0;
+            transition: all 0.6s;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+            transform: scale(2);
+        }
+
+        .project-card:hover {
+            transform: translateY(-20px) rotate(1deg);
+            border-color: var(--accent);
+            box-shadow: 0 30px 60px rgba(0, 245, 255, 0.15);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            transition: transform 0.6s;
+        }
+
+        .project-card:hover .project-img {
+            transform: scale(1.08);
+        }
+
+        /* About */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .profile-pic {
+            width: 100%;
+            max-width: 380px;
+            border-radius: 30px;
+            border: 4px solid var(--accent);
+            box-shadow: 0 0 60px rgba(0, 245, 255, 0.3);
+        }
+
+        .about-text p {
+            font-size: 1.15rem;
+            margin-bottom: 1.4rem;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0a0a;
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .social-links a {
+            font-size: 2rem;
+            color: var(--text-muted);
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+            transform: translateY(-6px);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .menu-toggle { display: block; }
+            .about-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+
+    <header>
+        <nav class="nav-container">
+            <h1 class="logo">NYX KURO</h1>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+        </nav>
+    </header>
+
+    <section id="hero" class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1 class="hero-title neon-text">I'M NYX KURO</h1>
+            <p class="hero-subtitle">Modern web developer specializing in premium websites, interactive UI, and AI-powered automations. I create fast, visually immersive digital experiences designed for brands, creators, and businesses.
+            </p>
+            <a href="#projects" class="cta-button">EXPLORE MY WORK</a>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>Featured Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <img src="cafe-thumb.jpg" alt="Walrus Café" class="project-img">
+                <h3>The Walrus Café</h3>
+                <p>Immersive café website with cinematic scroll animations, dynamic menu, and Sydney coastal vibes.</p>
+                <a href="https://walruscafesydney.netlify.app/" target="_blank" class="project-link">View Live →</a>
+            </div>
+            
+            
+                
+        </div>
+    </section>
+
+    <section id="services">
+        <h2>Services & Expertise</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fab fa-html5" style="font-size:3.5rem; color:var(--accent); margin-bottom:1rem;"></i>
+                <h3>Web Development</h3>
+                <p>High-performance, animated websites using modern tech stacks and GSAP magic.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-brain" style="font-size:3.5rem; color:var(--accent); margin-bottom:1rem;"></i>
+                <h3>AI & Automation</h3>
+                <p>Custom AI agents, intelligent workflows, and full automation systems.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-palette" style="font-size:3.5rem; color:var(--accent); margin-bottom:1rem;"></i>
+                <h3>Futuristic UI/UX</h3>
+                <p>Neon-soaked, glassmorphic, and motion-rich interfaces that stand out.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2>About Me</h2>
+        <div class="about-grid">
+            <img src="profile.jpg" alt="Nyx Kuro" class="profile-pic">
+            <div class="about-text">
+                <p>I'm Nyx Kuro — a digital alchemist who lives at the intersection of code, creativity, and cyberpunk aesthetics.</p>
+                <p>With a passion for turning complex ideas into beautiful, functional realities, I specialize in building immersive web experiences and intelligent automation systems. My work blends cutting-edge frontend development with AI technologies to create products that don't just work — they captivate.</p>
+                <p>When I'm not coding, you'll find me exploring new AI tools, studying motion design principles, or hunting for the perfect synthwave track to fuel my late-night sessions. I believe technology should feel magical, not mechanical.</p>
+                <p>Currently open to collaborations, freelance projects, and wild creative ideas.</p>
+                
+                <a href="#contact" class="cta-button" style="margin-top:2rem;">LET'S CREATE SOMETHING LEGENDARY</a>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <h2 style="margin-bottom:1rem;">Get In Touch</h2>
+        <p>Ready to bring your vision to life?</p>
+        
+        <ul class="social-links">
+            <li><a href="https://github.com/buildwithnyx" target="_blank"><i class="fab fa-github"></i></a></li>
+            <li><a href="https://www.linkedin.com/in/nyx-kumar-74a323409/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="https://www.instagram.com/buildwithnyx/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+        </ul>
+        
+        <p style="margin-top:3rem; opacity:0.6;">© 2026 Nyx Kuro • Built with neon &amp; coffee</p>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero entrance
+        gsap.from(".hero-content", {
+            y: 120,
+            opacity: 0,
+            duration: 1.4,
+            ease: "power4.out"
+        });
+
+        // Card animations
+        gsap.utils.toArray(".project-card, .service-card").forEach((card, i) => {
+            gsap.from(card, {
+                y: 100,
+                opacity: 0,
+                duration: 0.8,
+                delay: i * 0.1,
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 85%",
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        ScrollTrigger.create({
+            onUpdate: (self) => {
+                const nav = document.querySelector("header");
+                if (self.direction === 1) {
+                    nav.style.transform = "translateY(-100%)";
+                } else {
+                    nav.style.transform = "translateY(0)";
+                }
+            }
+        });
+
+        // Simple floating particles in hero
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const size = Math.random() * 6 + 2;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.top = `${Math.random() * 100}vh`;
+            particle.style.animation = `float ${Math.random() * 20 + 15}s linear infinite`;
+            document.body.appendChild(particle);
+            
+            setTimeout(() => particle.remove(), 30000);
+        }
+
+        setInterval(() => {
+            if (Math.random() > 0.4) createParticle();
+        }, 300);
+
+        // Add CSS for particle animation
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes float {
+                0% { transform: translateY(0) rotate(0deg); }
+                100% { transform: translateY(-120vh) rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
